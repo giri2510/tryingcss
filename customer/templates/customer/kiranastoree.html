@@ -1,0 +1,137 @@
+{%extends 'customer/layout.html'%}
+{%block body%}
+<div class="container">
+	{%load%}
+<div class="container">
+    <div class="row">
+        {%for i in prods%}
+        <div class="col-sm-4 my-4">
+            <div class="card">
+                <div align="center">
+                    <img src="/MEDIA/{{i.image}}" class="card-img-top-col center my-2" width="250" height="200" alt="...">
+                </div>
+                <div class="card-body">
+                    <h6 class="card-title " id="namepr{{i.prod_id}}">{{i.prod_name|truncatechars:25}}</h6>
+                    <label><span class="badge" style="background-color: hsl(301, 72%, 73%);">Product by : {{i.ownerprod}}</sppran></label>
+                    {%if i.discount_price%}
+                    <h6 class="card-text">₹<span>{{i.prod_price}}</span></h6>
+                    | <h8 class="card-text"><a class="badge" style="background-color:hsl(186, 100%, 50%);"> Discount</a> ₹<span id="pricepr{{i.prod_id}}">{{i.discount_price}}</span> <span class="badge badge-warning"> saving of {{i.get_amount_saving}}</span></span></h8>
+                    {%else%}
+                    <a></a>
+                    <h6 class="card-text">₹<span id="pricepr{{i.prod_id}}">{{i.prod_price}}</h6>
+                    {%endif%}
+                    <p class="card-text">{{i.prod_desc|truncatechars:30}}</p>
+                    <span id="dofpr{{i.prod_id}}" class="dofpr">
+                        <button id="pr{{i.prod_id}}" class="btn btn-primary cart ">Add To Cart</button>
+                    </span>
+                    <a href="/customer/productview/{{i.prod_id}}">
+                        <button id="qv{{i.prod_id}}" class="btn btn-primary cart ">QuickView</button></a>
+                </div>
+            </div>
+        </div>
+        {%endfor%}
+    </div>
+</div>
+</div>
+{%endblock%}
+{%block js%}
+<script>
+if (localStorage.getItem('cart') == undefined) {
+    var cart = {};
+} else {
+    cart = JSON.parse(localStorage.getItem('cart'));
+    updatecart(cart);
+
+}
+
+
+
+$('.dofpr').on('click', 'button.cart', function() {
+
+    var idstr = this.id.toString();
+    if (cart[idstr] != undefined) {
+        cart[idstr][0] = cart[idstr][0] + 1;
+    } else {
+        qty = 1;
+
+        name = document.getElementById('name' + idstr).innerHTML;
+        prodprice = document.getElementById('price' + idstr).innerHTML;
+        var n = prodprice.toString()
+
+        cart[idstr] = [qty, name, n];
+
+
+    }
+
+    document.getElementById('dof' + idstr).innerHTML = "<button id='minus" + idstr + "'class='btn btn-primary minus'> - </button><span id='val" + idstr + "'>" + cart[idstr][0] + "</span><button id='plus" + idstr + "'class='btn btn-primary plus'> + </button>";
+
+    updatecart(cart);
+});
+$('#popcart').popover();
+updatePopover(cart);
+
+function updatePopover(cart) {
+    var popStr = "";
+    popStr = popStr + "<h5> Items in your shopping cart </h5><div class='mx-2 my-2'>";
+    var i = 1;
+    for (var item in cart) {
+        popStr = popStr + "<b>" + i + "</b>.";
+        popStr = popStr + cart[item][1].slice(0, 20) + "... Qty : <b>" + cart[item][0] + '</b><br>';
+        i = i + 1;
+    }
+
+    popStr = popStr + "</div> <a href='/customer/checkout'<button id='checkout' class='btn btn-primary cart' >Checkout</a></button><button class='btn btn-primary cart mx-2'onclick='clearcart()' id='clearcart'>Clear Cart</button>";
+
+    document.getElementById('popcart').setAttribute('data-content', popStr);
+    $('#popcart').popover('show');
+
+}
+
+
+
+function clearcart() {
+    cart = JSON.parse(localStorage.getItem('cart'));
+    for (var item in cart) {
+        document.getElementById('dof' + item).innerHTML = "<button id='" + item + "'class='btn btn-primary cart'>Add To Cart</button>";
+    }
+    localStorage.clear();
+    cart={}
+    updatecart(cart);
+}
+
+
+function updatecart(cart) {
+    var sum = 0;
+    for (var item in cart) {
+        sum = sum + cart[item][0];
+        localStorage.setItem('cart', JSON.stringify(cart));
+    }
+    document.getElementById('cart').innerHTML = sum;
+    console.log(cart);
+    updatePopover(cart)
+
+}
+$('.dofpr').on('click', "button.minus", function() {
+    a = this.id.slice(7, );
+    cart['pr' + a][0] = cart['pr' + a][0] - 1;
+    cart['pr' + a][0] = Math.max(0, cart['pr' + a][0]);
+    document.getElementById('valpr' + a).innerHTML = cart['pr' + a][0];
+    if (cart['pr' + a][0] == 0) {
+        document.getElementById('dofpr' + a).innerHTML = "<button id='pr" + a + "'class='btn btn-primary cart'>Add To Cart</button>"
+        delete cart['pr' + a];
+
+    } else {
+        document.getElementById('valpr' + a).innerHTML = cart['pr' + a][0];
+    }
+
+    updatecart(cart);
+});
+
+$('.dofpr').on('click', "button.plus", function() {
+    a = this.id.slice(6, );
+    cart['pr' + a][0] = cart['pr' + a][0] + 1;
+    document.getElementById('valpr' + a).innerHTML = cart['pr' + a][0];
+    updatecart(cart);
+});
+</script>
+{%endblock%}

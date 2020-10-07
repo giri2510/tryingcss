@@ -1,0 +1,93 @@
+{%extends 'customer/layout.html'%}
+{%block title%}Restricted{%endblock%}
+{%block css%}
+<!--style>
+	.imgcont{
+		width: 850px;
+	}
+.imgtext {
+    position: absolute;
+    top: 480px;
+    left: 460px;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    background-color: #1e1818;
+    color: white;
+    font-size: 16px;
+    padding: 12px 84px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+}
+
+.btnf {
+    position: absolute;
+    top: 590px;
+    left: 460px;
+    transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    background-color: #1e1818;
+    color: white;
+    font-size: 35px;
+    padding: 20px 150px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    text-align: center;
+}
+
+/* For mobile phones: */
+[class*="col-"] {
+    width: 100%;
+}
+
+@media only screen and (min-width: 600px) {
+
+    /* For tablets: */
+    .col-s-1 {
+        width: 8.33%;
+    }
+}
+
+@media only screen and (min-width: 768px) {
+
+    /* For desktop: */
+    .col-6 {
+        width: 850px;
+    }
+}
+</style-->
+<style>
+
+
+.col-1 {
+    -ms-flex: 0 0 8.333333%;
+    flex: 2 1 61.333333%;
+    max-width: 100.333333%;
+}
+</style>
+{%endblock%}
+{%block body%}
+<div class="container">
+    <div class="row">
+    	<div class="col-s-1 col-1">
+        <img src="/MEDIA/loginerror.jpg" alt="Login Required" width="100%" max-height="100%">
+    </div>
+</div>
+<!--div class="container">
+    <div class="row">
+        <div class="col-6 col-s-1">
+        	<i class="imgcont">
+            <img src="/MEDIA/loginerror.jpg" alt="Login Required"></i>
+            <label class="imgtext">
+                <h3>It seem's you forgot to Log-In</h3>
+            </label>
+            <div class="btnf">
+                <a href="/customer/">
+                    <button> Back to Home</button></a>
+            </div>
+        </div>
+    </div>
+</div-->
+{%endblock%}

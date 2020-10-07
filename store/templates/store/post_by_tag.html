@@ -1,0 +1,159 @@
+{%extends 'store/layout.html'%}
+{%block css%}
+<style>
+.card-img,
+.card-img-bottom,
+.card-img-top {
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    width: 3%;
+}
+a{
+    color: black;
+}
+
+
+</style>
+{%endblock%}
+{%block body%}{%load%}
+<!--link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script-->
+<!------ Include the above in your HEAD tag ---------->
+<div class="container">
+    <table class="table">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Product_id</th>
+      <th scope="col">Product_View  </th>
+      <th scope="col">Product_Name</th>
+      <th scope="col">Quantity</th>
+      <th scope="col">Status</th>
+      <th scope="col">Status_Update</th>
+      <th scope="col"></th>
+      
+    </tr>
+  </thead>
+  <tbody>
+    {%for i in cust.items.all%}
+    {%if i.item.owner == request.user%}
+    
+    <tr>
+      <th scope="row"><a href="/store/status/{{i.id}}">{{i.item.prod_id}}</th></a>
+      <td><a href="/store/status/{{i.id}}"> <img src="/MEDIA/{{i.item.image}}" width="200" height="200" alt="..."></td></a>
+      <td><a href="/store/status/{{i.id}}">{{i.item}}</a></td>
+      <td>{{i.quantity}}</td>
+                {%if i.status == "Delivered"%}
+      <td><h4> <a class="badge badge-success"> {{i.status}}</a></h4></td>
+                {%else%}
+                <td><h4><a class="badge badge-danger"> {{i.status}}</a></h4></td>
+                {%endif%}
+      <td><a href="/store/status/{{i.id}}" class="btn btn-primary">Click_to_Update</a></td>
+      <td><a href="/store/orders/"><button type="button" class="btn  btn-primary" >Cancel</button></a></td>
+    </tr>
+    {%endif%}
+    {%endfor%}
+    <tr>
+      
+  </tbody>
+</table>
+    <!--div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body p-0">
+                    <div class="row p-5">
+                        <div class="col-md-6">
+                            <img src="http://via.placeholder.com/400x90?text=logo">
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <p class="font-weight-bold mb-1">Invoice #550</p>
+                            <p class="text-muted">Due to: {{cust.date_created}}</p>
+                        </div>
+                    </div>
+                    <hr class="my-5">
+                    <div class="row pb-5 p-5">
+                        <div class="col-md-6">
+                            <p class="font-weight-bold mb-4">Client Information</p>
+                            <p class="mb-1">{{cust.name|capfirst}}</p>
+                            <p class="mb-1">{{cust.phone}}</p>
+                            <p class="mb-1">{{cust.email}}</p>
+                            <p class="mb-1">{{cust.address|capfirst}}, </p>
+                            <p class="mb-1">{{cust.city|capfirst}}, {{cust.state|capfirst}} </p>
+                            <p class="mb-1">{{cust.zip_code}}</p>
+                        </div>
+                        <div class="col-md-6 text-right">
+                            <p class="font-weight-bold mb-4">Payment Details</p>
+                            <p class="mb-1"><span class="text-muted">VAT: </span> {{cust.id}}</p>
+                            <p class="mb-1"><span class="text-muted">VAT ID: </span> 10253642</p>
+                            <p class="mb-1"><span class="text-muted">Payment Type: </span> Root</p>
+                            <p class="mb-1"><span class="text-muted">Name: </span> {{cust.name|capfirst}}</p>
+                        </div>
+                    </div>
+                    <div class="row p-5">
+                        <div class="col-md-12">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th class="border-0 text-uppercase small font-weight-bold">Product ID</th>
+                                        <th class="border-0 text-uppercase small font-weight-bold">Item</th>
+                                        <th class="border-0 text-uppercase small font-weight-bold">Description</th>
+                                        <th class="border-0 text-uppercase small font-weight-bold">Quantity</th>
+                                        <th class="border-0 text-uppercase small font-weight-bold">Unit Cost</th>
+                                        <th class="border-0 text-uppercase small font-weight-bold">Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {%for i in cust.items.all%}
+                                    {%if i.item.owner == request.user%}
+                                    <tr>
+                                        <td><a href="/store/status/{{i.id}}">{{i.item.prod_id}}</td>
+                                        <td><a href="/store/status/{{i.id}}">{{i.item}}</td>
+                                        <td><a href="/store/status/{{i.id}}">{{i.item.prod_desc|truncatechars:35}}</td>
+                                        <td><a href="/store/status/{{i.id}}">{{i.quantity}}</td>
+                                        {%if i.item.discount_price%}
+                                        <td><a href="/store/status/{{i.id}}">₹.{{i.item.discount_price}}</td>
+                                        <td><a href="/store/status/{{i.id}}">₹.{{i.get_total_discount_item_price}}</td>
+                                        {%else%}
+                                        <td><a href="/store/status/{{i.id}}">₹.{{i.item.prod_price}}</td>
+                                        <td><a href="/store/status/{{i.id}}">₹.{{i.get_total_item_price}}</td>
+                                        {%endif%}
+                                    </tr>
+                                    {%endif%}
+                                    {%endfor%}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="d-flex flex-row-reverse bg-dark text-white p-4">
+                        <div class="py-3 px-5 text-right">
+                            <div class="mb-2">Grand Total</div>
+                            <div class="h2 font-weight-bolder">₹.{{total}}</div>
+                        </div>
+                        <div class="py-3 px-5 text-right">
+                            <div class="mb-2">Discount</div>
+                            <div class="h2 font-weight-bolder">10%</div>
+                        </div>
+                        <div class="py-3 px-5 text-right">
+                            <div class="mb-2">Sub - Total amount</div>
+                            <div class="h2 font-weight-bolder">₹.{{total}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="text-light mt-5 mb-5 text-center small">by : <a class="text-light" target="_blank" href="http://totoprayogo.com">totoprayogo.com</a></div>
+    <div class='wrapper'>
+        <div class='header'>
+            <p class='title'>Invoice # </p>
+        </div>
+        <div>
+            <div class='details'>
+                Bill to: <br />
+                Amount: <br />
+                Date:
+                <hr class='hrItem' />
+            </div>
+        </div-->
+    </div>
+    {% endblock %}

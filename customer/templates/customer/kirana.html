@@ -1,0 +1,12 @@
+{%extends 'customer/layout.html'%}
+{%block body%}
+<div class="container">
+    <h1>Please select your retailer</h1>
+    
+    {%for i in mert%}
+    <table>
+    	<a href="/customer/store_kirana/{{i.merch_id}}">{{i|capfirst}}</a>
+    </table>
+    {%endfor%}
+</div>
+{%endblock%}

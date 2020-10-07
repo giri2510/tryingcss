@@ -1,0 +1,95 @@
+{%extends 'store/layout.html'%}
+{%block title%}Orders{%endblock%}
+{%block css%}
+<style>
+    .card-img-top {
+    width: 10%;
+    border-top-left-radius: calc(.25rem - 1px);
+    border-top-right-radius: calc(.25rem - 1px);
+}
+
+.card-img,
+.card-img-bottom,
+.card-img-top {
+    -ms-flex-negative: 0;
+    flex-shrink: 0;
+    width: 100%;
+}
+
+.badge {
+    display: grid;
+}
+</style>
+{%endblock%}
+{%block body%}{%load%}
+{%for i in asd%}
+<div class="container">
+    <table class="table" style="outline:  2px solid violet">
+        <thead>
+            <tr>
+                <th scope="col">Id</th>
+                <th scope="col"> Customer_Name</th>
+                <th scope="col">Address</th>
+                <th scope="col">Contact_No.</th>
+                <th scope="col">E-mail</th>
+                <th scope="col">Order_Date</th>
+                <!--th scope="col">Status</th-->
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row"><a href="/store/post_by_tag/{{i.id}}" title="">{{i.id}}</a></th>
+                <td><a href="/store/post_by_tag/{{i.id}}">{{i.name}}</a></td>
+                <td><a href="/store/post_by_tag/{{i.id}}">{{i.address}}</a></td>
+                <td><a href="/store/post_by_tag/{{i.id}}">{{i.phone}}</a></td>
+                <td><a href="/store/post_by_tag/{{i.id}}">{{i.email}}</a></td>
+                <td><a href="/store/post_by_tag/{{i.id}}">{{i.date_created}}</a></td>
+                <td>
+                    <button type="button" class="btn btn-light"><a href="/store/bill/{{i.id}}">Print_Bill</a></button></td>
+            </tr>
+        </tbody>
+        <thead style="outline: 2px solid red">
+            <tr>
+                <th scope="col"><span class="badge badge-info"> ID</span></th>
+                <th scope="col"><span class="badge badge-info"> Product </span></th>
+                <th scope="col"><span class="badge badge-info"> Status </span></th>
+            </tr>
+        </thead>
+        <tbody>
+            <br>
+            {%for k in i.items.all%}
+            {%if k.item.owner == request.user%}
+            <tr>
+                <td>{{k.id}}</td>
+                <td>{{k.item|truncatechars:50}}</td>
+                {%if k.status == "Delivered"%}
+                <td><label class="badge badge-success">{{k.status}}</label> </td>
+                {%else%}
+                <td><label class="badge badge-danger">{{k.status}}</label> </td>
+                {%endif%}
+            </tr>
+            {%endif%}
+            {%endfor%}
+        </tbody>
+    </table>
+    <div class="row" style="outline: 2px solid black"></div>
+</div>
+{%endfor%}
+<div class="container">
+    <div class="pagination">
+        <span class="step-links">
+            {% if asd.has_previous %}
+            <a href="?page=1">&laquo; first</a>
+            <a href="?page={{ asd.previous_page_number }}">previous</a>
+            {% endif %}
+            <span class="current">
+                Page {{ asd.number }} of {{ asd.paginator.num_pages }}.
+            </span>
+            {% if asd.has_next %}
+            <a href="?page={{ asd.next_page_number }}">next</a>
+            <a href="?page={{ asd.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+</div>
+{%endblock%}

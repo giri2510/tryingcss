@@ -1,0 +1,171 @@
+{% extends 'customer/layout.html'%}
+{%block title%}Shop Page{%endblock%}
+{%block css%}
+<style>
+    .container-lg, .container-md, .container-sm, .container-xl {
+    max-width: 100%;
+    height: auto;
+}
+.carousel-inner {
+    position: auto;
+    width: 100%;
+    overflow: auto;
+}
+
+/*.col-md-3 {
+    display:contents;
+    margin-left: -4px;
+    margin-right: -8px;
+    margin-bottom: 2px
+}*/
+.carousel-item-next, .carousel-item-prev, .carousel-item.active {
+    display: flex;
+}
+@media (min-width: 768px){
+.col-md-3 {
+
+    flex: 0 0 25%;
+    max-width: 30%;
+}}
+@media (min-width: 1200px)
+{.container {
+    max-width: 1315px;
+}}
+.carousel-indicators .active {
+    background-color: red;
+}
+/*@media (min-width: 320px)
+{
+  .col-sm-3 {
+    display:table-cell;
+    margin-left: -4px;
+    margin-right: -8px;
+    margin-bottom: 2px
+}
+}
+@media (min-width: 992px)
+{
+  .col-md-3 {
+    display:inline-table;
+    margin-left: -4px;
+    margin-right: -8px;
+    margin-bottom: 2px
+}
+}
+@media (min-width: 320px)
+{
+  .col-sm-3 {
+    display:table-cell;
+    margin-left: -4px;
+    margin-right: -8px;
+    margin-bottom: 2px
+}
+}
+*/
+.col-md-3 img {
+    max-width: 171px;
+    height: 141px;
+    padding-left: 38px;
+    padding-top: 15px;
+}
+
+body .carousel-indicator li {
+    background-color: black;
+}
+
+
+.carousel-control-prev,
+.carousel-control-next {
+    top: auto;
+    bottom: auto;
+    padding-top: 164px;
+}
+
+body .carousel-indicators {
+    bottom: -46px;
+}
+
+body .carousel-control-prev-icon,
+body .carousel-control-next-icon {
+    background-color: blue;
+}
+
+.card-title {
+    margin-bottom: 2px;
+    margin-left: -9px;
+}
+
+body .no-padding {
+    padding-left: 0,
+        padding-right: 0;
+}
+
+</style>
+{%endblock%}
+{%block body%}
+{%load%}
+<div class="container">
+    {%for product,range,nslides in allproducts%}
+    <h5 class="my-4">
+        <a href="/customer/category/{{product.0.prod_category}}">{{product.0.prod_category}}</a></h5>
+    <div class="row">
+        <div id="demo{{forloop.counter}}" class="col carousel slide my-3 responsive" data-ride="carousel">
+            <ul class="carousel-indicators">
+                <li data-target="#demo{{forloop.counter}}" data-slide-to="0" class="active"></li>
+                {% for i in range%}
+                <li data-target="#demo{{forloop.parentloopcounter}}" data-slide-to="{{i}]" ></li>
+        {%endfor%}
+
+        </ul>
+
+    <!--slide show start here -->
+    <div class="container carousel-inner padding-auto">
+      <div class="carousel-item active">
+
+          {%for i in product%}
+
+      <div class="col-xs-3 col-sm-3 col-md-3">
+        <div class="card" style="width: 18rem;">
+           <img src="/MEDIA/{{i.image}}" class="card-img-top" alt="...">
+                    <div class="card-body">
+                        <h6 class="card-title " id="namepr{{i.prod_id}}">{{i.prod_name|truncatechars:25}}</h6>
+                        <label><span class="badge" style="background-color: hsl(301, 72%, 73%);">Product by : {{i.ownerprod}}</span></label>
+                        {%if i.discount_price%}
+                        <h6 class="card-text">₹<span>{{i.prod_price}}</span></h6>
+                        | <h8 class="card-text"><a class="badge" style="background-color:hsl(186, 100%, 50%);"> Discount</a> ₹<span id="pricepr{{i.prod_id}}">{{i.discount_price}}</span> <span class="badge badge-warning"> saving of {{i.get_amount_saving}}</span></span></h8>
+                        {%else%}
+                        <a></a>
+                        <h6 class="card-text">₹<span id="pricepr{{i.prod_id}}">{{i.prod_price}}</h6>
+                        {%endif%}
+                        <p class="card-text">{{i.prod_desc|truncatechars:30}}</p>
+                        <span id="divpr{{i.prod_id}}" class="divpr">
+                            <button id="pr{{i.prod_id}}" class="btn btn-primary cart ">Add To Cart</button>
+                        </span>
+                        <a href="/customer/productview/{{i.prod_id}}">
+                            <button id="qv{{i.id}}" class="btn btn-primary cart mx-2">QuickView</button></a>
+                    </div>
+        </div>
+    </div>
+    {%if forloop.counter|divisibleby:4 and forloop.counter > 0 and not forloop.last%}
+</div>
+<div class="carousel-item">
+    {%endif%}
+    {%endfor%}
+</div>
+</div>
+</div>
+<!-- Button trigger modal -->
+<!-- Modal -->
+<!-- left and right controls for the slide -->
+<a type="hidden" class="carousel-control-prev" href="#demo{{forloop.counter}}" data-slide="prev">
+    <span class="carousel-control-prev-icon"></span>
+</a>
+<a class="carousel-control-next" href="#demo{{forloop.counter}}" data-slide="next">
+    <span class="carousel-control-next-icon"></span>
+</a> </div>
+{% endfor %}
+</div>
+{% endblock %}
+{%block js%}
+<script src="/MEDIA/files/js/cart.min.js"></script>
+{%endblock%}

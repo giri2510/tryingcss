@@ -1,0 +1,79 @@
+{%extends 'store/layout.html'%}
+{%block css%}
+<style>
+    table,
+th,
+td {
+    border: 1px solid black;
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 5px;
+    text-align: left;
+}
+tr:nth-child(even) {background-color: #f2f2f2;}
+</style>
+{%endblock%}
+{%block body%}
+{%if messages%}
+{%for message in messages%}
+<div class="alert {{message.tags}}" id="msg" role="alert">
+    {{message}}
+</div>
+{%endfor%}
+{%endif%}
+<div class="container">
+    {%for i in orders%}
+    <form method="post" action="#">{%csrf_token%}
+        {%if i.status == "Delivered"%}
+        <h2><label>Current status :- <a class="badge badge-success"> {{i.status}}</a></label><br></h2>
+        {%else%}
+        <h2><label>Current status :- <a class="badge badge-danger"> {{i.status}}</a></label><br></h2>
+        {%endif%}
+        <select name="status" id="status">
+            <option value="Order Placed">New Order Placed</option>
+            <option value="Order Accepted">Order Accepted</option>
+            <option value="Ready to Deliever">Ready to Deliever</option>
+            <option value="Ontheway">On the way</option>
+            <option value="Delivered">Delivered</option>
+        </select>
+        <input type="submit"  class="btn btn-warning" value="Submit">
+        <a href="/store/orders/" class="btn btn-outline-success" type="submit">Back</a>
+    </form>
+        <div class="row my-2"></div>
+            <div style="outline: 2px solid red"></div>
+    <h2>Product Order :</h2>
+    <table style="width:100%">
+                <tr>
+                    <th>Product ID:</th>
+                    <td><a id="{{k.item.prod_id}}"> {{i.item.prod_id}}</a></td>
+                </tr>
+                <tr>
+                    <th>Product Name:</th>
+                    <td>{{i.item.prod_name}}</td>
+                </tr>
+                <tr>
+                    <th>Product Quantity:</th>
+                    <td>{{i.quantity}}</td>
+                </tr>
+                <tr>
+                    <th>Product Price:</th>
+                    <td>{{i.item.prod_price}}</td>
+                </tr>
+                <tr>
+                    <th>Product Discount_price:</th>
+                    <td>{{i.item.discount_price}}</td>
+                </tr>
+                <tr>
+                    <th>Product Image:</th>
+                    <td><img src="/MEDIA/{{i.item.image}}" alt="..." width="300" height="250" class="img-thumbnail"></td>
+                </tr>
+                </td>
+                {%endfor%}
+            
+        
+    </table>
+</div>
+{%endblock%}

@@ -1,0 +1,175 @@
+{% extends 'customer/layout.html'%}
+{% block title %} Tracker PAGE {% endblock %}
+{%block css%}
+<style>
+    /* Container needed to position the button. Adjust the width as needed */
+
+
+
+
+/* Style the button and place it in the middle of the container/image */
+ .loginbtn {
+     background-color: white;
+  color: black;
+  border: 2px solid #4CAF50; 
+  position: absolute;
+  top: 80%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  -ms-transform: translate(-50%, -50%);
+  width:40%;
+  
+  font-size: 16px;
+  padding: 18px 24px;
+  
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+.container .btn:hover {
+  background-color: black;
+}
+
+}// Extra small devices (portrait phones, less than 576px)
+@media only screen and (width: 420px) {
+    .col-sm-3{
+    width:fit-content;
+    } 
+}
+@media (min-width: 320px){
+.col-xs-3 {
+    width:fit-content;
+}}
+@media (min-width: 768px){
+.col-md-3 {
+ 
+    flex: 0 0 50%;
+    max-width: 100%;
+}}
+@media (min-width: 576px)
+{.col-sl-3 {
+    
+    flex: 0 0 25%;
+    max-width: 130%;
+}}
+
+
+</style>
+{%endblock%}
+{%block body%}
+{%load static%}
+{%load%}
+<div class="container">
+    <h3>Enter your email address and order id to track your order</h3>
+    <form method="post" action="/customer/tracker/">{%csrf_token%}
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                <label for="orderid">Order_Id</label>
+                <input type="number" class="form-control" name="orderid" id="orderid">
+            </div>
+            <div class="form-group col-md-6">
+                <label for="email">Email</label>
+                <input type="email" class="form-control" name="email" id="email">
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Track Product</button>
+    </form>
+    {% if tracking%}
+    <div class="col-xs-3 col-sm-3 col-md-3 col-sl-3">
+        <h3>Your Orders Details </h3>
+        <ul class="list-group" id="checksitems">
+        </ul>
+        <li class="list-group-item">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Id</th>
+                        <th scope="col">Product</th>
+                        <th scope="col">Quantity</th>
+                        <th scope="col">Original Cost </th>
+                        <th scope="col">Amount Saved </th>
+                        <th scope="col"> Discount AMT</th>
+                        <th scope="col"> Total Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {%for i in tracking%}
+                    {%for k in i.items.all%}
+                    <tr>
+                        <th scope="row">{{i.id}}</th>
+                        <td>{{k.item}}</td>
+                        <td>{{k.quantity}}</td>
+                        <td>{{k.item.prod_price}}</td>
+                        {%if k.item.discount_price%}
+                        <td><span class="badge badge-info" style="display:grid;">{{k.get_amount_saved}}</td></span>
+                        {%else%}
+                        <td><span class="badge badge-info" style="display:grid;"> No-Discount</td></span>
+                        {%endif%}
+                        {%if k.item.discount_price%}
+                        <td>{{k.item.discount_price}}</td>
+                        {%else%}
+                        <td>{{k.item.prod_price}}</td>
+                        {%endif%}
+                        <td>{{k.get_final_price}}</td>
+                    </tr>
+                    {%endfor%}
+                    {%endfor%}
+                </tbody>
+            </table>{%for k in tracking%}
+            <div class="d-flex flex-row-reverse bg-dark text-white p-4">
+                <div class="py-3 px-5 text-right">
+                    <div class="mb-2">Grand Total</div>
+                    <div class="h2 font-weight-light">₹.{{k.delivery}}</div>
+                </div>
+                <div class="py-3 px-5 text-right">
+                    <div class="mb-2">Dilivery Charges</div>
+                    <div class="h2 font-weight-light">₹.20</div>
+                </div>
+                <div class="py-3 px-5 text-right">
+                    <div class="mb-2">Sub - Total amount</div>
+                    <div class="h2 font-weight-light">₹.{{k.get_total}}</div>
+                </div>
+            </div>
+            {%endfor%}
+        </li>
+    </div><div class="col-xs-3 col-sm-3 col-md-3 col-sl-3">
+    <a class="badge badge-warning">* Please wait for Latest status of your order</a>
+    <div class="row">
+    </div>
+    <li class="list-group-item">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col"> Merchant_Name</th>
+                    <th scope="col">Product</th>
+                    <th scope="col">Unit Cost</th>
+                    <th scope="col">Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {%for i in tracking%}
+                {%for k in i.items.all%}
+                <tr>
+                    <th scope="row">{{i.id}}</th>
+                    <td>{{k.item.ownerprod}}</td>
+                    <td>{{k.item}}</td>
+                    {%if k.item.discount_price%}
+                    <td>{{k.item.discount_price}}</td>
+                    {%else%}
+                    <td>{{k.item.prod_price}}</td>
+                    {%endif%}
+                    {%if k.status == "Delivered"%}
+                    <td><span class="badge badge-success" style="display:grid;">{{k.status}}</span></td>
+                    {%else%}
+                    <td><span class="badge badge-warning" style="display:grid;">{{k.status}}</span></td>
+                    {%endif%}
+                </tr>
+                {%endfor%}
+                {%endfor%}
+            </tbody>
+        </table>
+    </li>
+    {%endif%}</div>
+</div>
+{% endblock %}

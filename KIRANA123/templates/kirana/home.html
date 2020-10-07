@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=1">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" crossorigin="anonymous">
+    <title>LOCALALLSTORE.COM</title>
+    <style>
+    body {
+        background-color: #000;
+        color: #fefefe;
+    }
+
+    a {
+        color: #fcfcfc;
+    }
+    a:hover{
+      color: #6ceae6;
+    }
+
+    .img-fluid {
+        max-width: 100%;
+        height: auto;
+    }
+
+    p {
+        margin-top: 0;
+        margin-bottom: 2rem;
+    }
+    </style>
+</head>
+
+<body>{%load%}
+  {% load static %}
+    <nav id="navbar-example2" class="navbar navbar-dark bg-dark">
+        <a class="navbar-brand" href="/">LOCALALLSTORE</a>
+        <ul class="nav nav-pills">
+            <li class="nav-item">
+                <a class="nav-link" href="/customer/">Shop</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#about">About</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#contact">Contact</a>
+            </li>
+        </ul>
+    </nav>
+    <div class="container my-4">
+        <img src= "/MEDIA/Open Sign.webp" alt="Open Sign" class="img-fluid">
+        <div style="text-align: center;">
+            <p>
+                <h1>LOCALALLSTORES</h1>
+            </p>
+            <p>Exactly What You Need</p>
+            <p>LocalStores has been proudly providing high quality products and services to there nearby cities. What differentiates us from other business is our ability to truly connect with our customers, and provide the exceptional, compassionate service they deserve. To learn more, simply browse through our site.</p>
+            <div data-spy="scroll" data-target="#navbar-example2" data-offset="0">
+                <div class="centered">
+                    <img src="/MEDIA/store.webp" alt="Store" class="img-fluid my-4">
+                    <div class="cent">
+                        <h4 id="about">About</h4>
+                        <h5>Who We Are</h5>
+                        </p>As one of the leading local business in the India, we attribute our reputation to the lasting customer relationships we’ve developed throughout the years. We believe that all of our customers deserve the highest level of service, and we ensure our customers to provide best service. Get in touch today to learn more.</p>
+                    </div>
+                </div>
+                <h4 id="contact" class="my-4"><a href="/customer/contact/">Contact</h4>
+                <div class="card mb-3" style="max-width: auto; background: black;">
+                    <div class="row no-gutters">
+                        <div class="col-md-4">
+                            <img src="/MEDIA/Contact.webp" alt="Contact" class="img-fluid">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">GET IN TOUCH</h5>
+                                <p class="card-text">Shravasti Nagar,Manmad, Dist-Nashik<br>
+                                    localkiranashop@gmail.com<br>
+                                    +91-8668928055</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js" integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV" crossorigin="anonymous"></script>
+    
+</body>
+
+</html>
